@@ -84,9 +84,14 @@ def test_form_on_books_path(page: Page):
 
     connection.seed("./seeds/books.sql")
 
+def test_form_on_films_path(page: Page):
+    page.goto("http://127.0.0.1:5001/films")
+    page.get_by_placeholder("Title").fill("The Shining")
+    page.get_by_placeholder("Director").fill("Stanley Kubrick")
+    page.get_by_role("button", name="Submit").click()
 
+    films = page.locator('li')
 
+    new_film = films.all_inner_texts()[-1]
 
-
-
-
+    assert new_film == "The Shining - Stanley Kubrick"
