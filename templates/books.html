@@ -1,0 +1,78 @@
+
+<html>
+  <head>
+    <title>Book Store</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+
+    <h1>My Book Store</h1>
+
+    <h2>Add a Book</h2>
+
+    <form method="POST" action="/books">
+
+      <label for="title">Title:</label>
+      <input type="text" name="title" placeholder="Title"><br>
+
+      <label for="author">Author:</label>
+      <input type="text" name="author" placeholder="Author"><br>
+
+      <input type="submit" value="submit">
+    </form>
+
+    <h2>Static Book List</h2>
+    <ul>
+      <li>The Gruffalo by Julia Donaldson</li>
+      <li>Ada Twist, Scientist by Andrea Beaty</li>
+      <li>The Girl Who Drank the Moon by Kelly Barnhill</li>
+      <li>Dragons in a Bag by Zetta Elliott</li>
+    </ul>
+
+    <h2>Book List Pulling From Database</h2>
+    <ul>
+      {% for book in books %}
+        <li>{{ book.title }} by {{ book.author }}</li>
+      {% endfor %}
+    </ul>
+
+
+
+        <!-- NEW: Four-column book grid -->
+    <h2>Book Gallery</h2>
+    <ul class="book-grid">
+      {% for book in books %}
+        <li class="book-tile">
+          <h3>{{ book.title }}</h3>
+          <p>by {{ book.author }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+
+
+
+<h2>Book Cover Gallery</h2>
+
+<ul id="book-cover-gallery" class="book-grid">
+  {% for book in books %}
+    <li class="book-tile">
+
+      <img src="{{ cover_urls[book.title] }}"
+           alt="Cover of {{ book.title }}">
+
+      <h3>{{ book.title }}</h3>
+      <p>by {{ book.author }}</p>
+  
+    </li>
+
+  {% endfor %}
+</ul>
+
+
+  </body>
+</html>
+
+
+  </body>
+</html>
+
