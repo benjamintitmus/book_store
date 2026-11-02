@@ -94,4 +94,4 @@ def test_form_on_films_path(page: Page):
 
     new_film = films.all_inner_texts()[-1]
 
-    assert new_film == "The Shining - Stanley Kubrick"
+    assert new_film == "The Shining — Stanley Kubrick"

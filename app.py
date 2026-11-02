@@ -173,6 +173,19 @@ def films_page():
     return render_template('films.html', films=films)
 
 
+# POST for films
+
+@app.route('/films', methods=['POST'])
+def create_film():
+    connection = DatabaseConnection()
+    connection.connect()
+    film_repository = FilmRepository(connection)
+    film_details = request.form
+    film = Film(title=film_details['title'], director=film_details['director'])
+    film_repository.create(film)
+    print(film_details)
+    return redirect('/films')
+
 
 
 # make the server run in response to `python app.py`
