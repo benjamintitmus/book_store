@@ -1,13 +1,16 @@
 
 from flask import Flask, render_template, request, redirect # Add 'render_template' and 'request' to your listed imports from Flask
 
-from database_connection import DatabaseConnection
+from lib.database_connection import DatabaseConnection
 
-from book import Book
-from book_repository import BookRepository
+from lib.book import Book
+from lib.book_repository import BookRepository
 
-from film import Film
-from film_repository import FilmRepository
+from lib.film import Film
+from lib.film_repository import FilmRepository
+
+from lib.user import User
+from lib.user_repository import UserRepository
 
 # instantiate a Flask app object
 app = Flask(__name__)
@@ -185,6 +188,27 @@ def create_film():
     film_repository.create(film)
     print(film_details)
     return redirect('/films')
+
+
+# GET route for users
+
+@app.route('/users/new', methods=['GET'])
+def get_signup_form():
+    return render_template("signup_form.html")
+
+
+# POST route for users
+
+@app.route('/users', methods=['POST'])
+def create_user():
+    connection = DatabaseConnection()
+    connection.connect()
+    user_repository = UserRepository(connection)
+    user_details = request.form
+    user = User(username=user_details['username'], password=user_details['password'])
+    user_repository.create(user)
+    print(user_details)
+    return redirect('/books')
 
 
 

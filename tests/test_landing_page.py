@@ -1,7 +1,7 @@
 
 from playwright.sync_api import Page, expect
 
-from database_connection import DatabaseConnection
+from lib.database_connection import DatabaseConnection
 
 def test_has_title(page: Page):
     page.goto("http://127.0.0.1:5001/index")

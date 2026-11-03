@@ -1,6 +1,5 @@
 
-
-from film import Film
+from lib.film import Film
 
 class FilmRepository:
 

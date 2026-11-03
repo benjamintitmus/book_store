@@ -1,5 +1,5 @@
 
-from book import Book
+from lib.book import Book
 
 class BookRepository:
 
