@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, redirect # Add 'render_template' and 'request' to your listed imports from Flask
+from flask import Flask, render_template, request, redirect, session # Add 'render_template' and 'request' to your listed imports from Flask
 
 from lib.database_connection import DatabaseConnection
 
@@ -13,7 +13,14 @@ from lib.user import User
 from lib.user_repository import UserRepository
 
 # instantiate a Flask app object
+
 app = Flask(__name__)
+
+# In Flask, session data is stored in a cookie that gets sent back and forth 
+# between the client and server. Flask needs a secret_key to prevent users 
+# (or malicious actors) from tampering with it.
+
+app.secret_key = "some_really_secret_key" #In a real application, you'd want this to be a long random string stored in an environment variable, but a hardcoded value is fine for learning.
 
 # Declares a route that listens for a GET request to the path /hello
 # and a method to execute when that request comes in
@@ -211,6 +218,32 @@ def create_user():
     return redirect('/books')
 
 
+# GET route for login session
+
+@app.route('/sessions/new', methods=['GET'])
+def get_login_form():
+    return render_template("login_form.html")
+
+# POST route for login session
+
+@app.route('/sessions', methods=['POST'])
+def create_session():
+    connection = DatabaseConnection()
+    connection.connect()
+    user_repository = UserRepository(connection)
+
+    username = request.form["username"]
+    password = request.form["password"]
+    
+    user = user_repository.find_by_username(username)
+
+    if user and user.password == password:
+        session["user_id"] = user.id
+        session["username"] = user.username
+        return redirect("/books")
+
+    else:
+        return redirect("/sessions/new")
 
 # make the server run in response to `python app.py`
 # on port 5001 (you'll learn more about what this means later)
