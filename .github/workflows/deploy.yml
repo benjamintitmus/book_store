@@ -73,10 +73,10 @@ jobs:
           port: 22
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            if [ "$(docker ps -q -f name=^book_store$)" ]; then
-              docker stop $(docker ps -q -f name=^book_store$) || true
+            if [ "$(docker ps -q -f name=^book_store_app$)" ]; then
+              docker stop book_store_app || true
             fi
-            docker rm book_store || true
+            docker rm book_store_app || true
             docker image prune -f || true
             docker run -d \
               --name book_store \
