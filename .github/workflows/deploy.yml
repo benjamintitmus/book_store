@@ -77,6 +77,9 @@ jobs:
               docker stop book_store_app || true
             fi
             docker rm book_store_app || true
+
+            docker rm -f book_store || true
+
             docker image prune -f || true
             docker run -d \
               --name book_store \
