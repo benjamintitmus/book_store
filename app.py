@@ -12,6 +12,8 @@ from lib.film_repository import FilmRepository
 from lib.user import User
 from lib.user_repository import UserRepository
 
+from lib.login_required import login_required
+
 # instantiate a Flask app object
 
 app = Flask(__name__)
@@ -149,7 +151,9 @@ def get_team():
 # POST route
 
 @app.route('/books', methods=['POST'])
+@login_required
 def create_book():
+    
     # make a new database connection
     connection = DatabaseConnection()
     connection.connect()
@@ -186,6 +190,7 @@ def films_page():
 # POST for films
 
 @app.route('/films', methods=['POST'])
+@login_required
 def create_film():
     connection = DatabaseConnection()
     connection.connect()

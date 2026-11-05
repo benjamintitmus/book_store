@@ -58,6 +58,8 @@ def test_book_gallery_has_four_columns(page: Page):
     assert len(columns.split()) == 4
 
 
+# Tests that a user can log in and successfully add a book.
+
 def test_form_on_books_path(page: Page):
     connection = DatabaseConnection()
 
@@ -66,6 +68,14 @@ def test_form_on_books_path(page: Page):
 
     connection.connect()
     connection.seed("./seeds/books.sql")
+    connection.execute("DELETE FROM users WHERE username = 'test';")
+    connection.execute("INSERT INTO users (username, password) values ('test', '1234');")
+
+    page.goto("http://127.0.0.1:5001/sessions/new")
+    page.get_by_placeholder("username").fill("test")
+    page.get_by_placeholder("password").fill("1234")
+    page.get_by_role("button").click()
+
     # navigate to the page the form is on
     page.goto("http://127.0.0.1:5001/books")
     # grab and fill the first field using 'get_by_placeholder'
@@ -84,7 +94,22 @@ def test_form_on_books_path(page: Page):
 
     connection.seed("./seeds/books.sql")
 
+
+# Tests that a user can log in and successfully add a film.
+
 def test_form_on_films_path(page: Page):
+
+    connection = DatabaseConnection()
+
+    connection.connect()
+    connection.execute("DELETE FROM users WHERE username = 'test';")
+    connection.execute("INSERT INTO users (username, password) values ('test', '1234');")
+
+    page.goto("http://127.0.0.1:5001/sessions/new")
+    page.get_by_placeholder("username").fill("test")
+    page.get_by_placeholder("password").fill("1234")
+    page.get_by_role("button").click()
+
     page.goto("http://127.0.0.1:5001/films")
     page.get_by_placeholder("Title").fill("The Shining")
     page.get_by_placeholder("Director").fill("Stanley Kubrick")
@@ -95,3 +120,5 @@ def test_form_on_films_path(page: Page):
     new_film = films.all_inner_texts()[-1]
 
     assert new_film == "The Shining — Stanley Kubrick"
+
+    
