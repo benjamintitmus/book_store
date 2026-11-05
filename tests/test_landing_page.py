@@ -111,6 +111,7 @@ def test_form_on_films_path(page: Page):
     page.get_by_role("button").click()
 
     page.goto("http://127.0.0.1:5001/films")
+    print(page.locator("body").inner_text())
     page.get_by_placeholder("Title").fill("The Shining")
     page.get_by_placeholder("Director").fill("Stanley Kubrick")
     page.get_by_role("button", name="Submit").click()
