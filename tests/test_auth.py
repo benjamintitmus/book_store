@@ -88,7 +88,7 @@ from lib.login_required import login_required
 def test_unauthenticated(page: Page):
     connection = DatabaseConnection()
 
-    assert connection.DATABASE_NAME == "book_store", \
+    assert connection.DATABASE_NAME == "book_store_test", \
         "STOP: Test is connected to the wrong database!"
 
     connection.connect()

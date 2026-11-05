@@ -63,7 +63,7 @@ def test_book_gallery_has_four_columns(page: Page):
 def test_form_on_books_path(page: Page):
     connection = DatabaseConnection()
 
-    assert connection.DATABASE_NAME == "book_store", \
+    assert connection.DATABASE_NAME == "book_store_test", \
         "STOP: Test is connected to the wrong database!"
 
     connection.connect()
